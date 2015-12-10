@@ -44,9 +44,14 @@ if ($modules -contains 'Assure')
 {
 	.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName "Assure.sql"
 		
-	if ($product -eq 'NS')
+	if ($product -contains 'NS')
 	{
 		.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName "AssureNetSuite.sql"
+	}
+	
+	if ($product -contains 'INT')
+	{
+		.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName "AssureIntacct.sql"
 	}
 }
 
