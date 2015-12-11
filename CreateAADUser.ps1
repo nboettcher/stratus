@@ -53,7 +53,7 @@ $byteArray = $enc.GetBytes($json)
 $contentLength = $byteArray.Length
 
 $createdUser = Invoke-RestMethod -Uri "https://graph.windows.net/fpstratus.onmicrosoft.com/users?api-version=beta" -Method Post -Body $json -Headers @{"Authorization"=$header;"Content-Type"="application/json";"Content-Length"=$contentLength}
-$emailNewUser = .\EmailNewUser.ps1 -toEmail $email -userPassword $password
+$emailNewUser = .\EmailNewUser.ps1 -toEmail $email -userPassword $password -name $fullName
 
 return $createdUser.objectId
 
