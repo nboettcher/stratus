@@ -2,15 +2,18 @@ Param(
    [Parameter(Mandatory=$True,Position=1)]
    [string]$toEmail,
    
-   [Parameter(Mandatory=$True,Position=1)]
-   [string]$userPassword
+   [Parameter(Mandatory=$True)]
+   [string]$userPassword,
+   
+   [Parameter(Mandatory=$True)]
+   [string]$name
 )
 
 $sendGridCredential = Get-AutomationPSCredential -Name 'SendGridCredentials'
 $username = $sendGridCredential.UserName
 $password = $sendGridCredential.GetNetworkCredential().Password
 
-$body = "Welcome to Fastpath Assure. You have been granted access to Fastpath Assure. Your credentials are as follows: User: " + $toEmail + " Password: " + $userPassword + " Access Fastpath Assure now!"
+$body = $name ", Welcome to Fastpath Assure. You have been granted access to Fastpath Assure. Your credentials are as follows: User: " + $toEmail + " Password: " + $userPassword + " Access Fastpath Assure now!"
 
 $url = "https://api.sendgrid.com/api/mail.send.json"
 $contentType = "application/x-www-form-urlencoded; charset=UTF-8"
