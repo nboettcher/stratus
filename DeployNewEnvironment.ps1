@@ -33,7 +33,8 @@ param
         $adminLastName
     ) 
 
-[string]$database = 'FPASSURE_' + $environmentName
+$dbEnvironmentName = $environmentName -replace '\s',''
+[string]$database = 'FPASSURE_' + $dbEnvironmentName
 $adminName = $adminFirstName + ' ' + $adminLastName
 
 #create database 
