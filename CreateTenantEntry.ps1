@@ -47,4 +47,3 @@ $command.ExecuteNonQuery() | Out-Null
 $connection.Close()
 
 return $tenantId
-
