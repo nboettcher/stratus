@@ -3,7 +3,10 @@ Param(
   [string]$sqlServer,
 	
   [Parameter(Mandatory=$True)]
-  [string]$database
+  [string]$database,
+  
+  [Parameter(Mandatory=$True)]
+  [string]$poolName
 )
 
 $environmentName = $environmentName -replace '\s',''
@@ -16,4 +19,4 @@ $edition = Get-AutomationVariable -Name 'DatabaseEdition'
 $level = Get-AutomationVariable -Name 'DatabaseLevel'
 $resourceGroup = Get-AutomationVariable -Name 'ResourceGroup'
 
-$newDatabase = New-AzureRMSqlDatabase -ResourceGroupName $resourceGroup -ServerName $sqlServer -DatabaseName $database -Edition $edition -RequestedServiceObjectiveName $level
+$newDatabase = New-AzureRMSqlDatabase -ResourceGroupName $resourceGroup -ServerName $sqlServer -DatabaseName $database -ElasticPoolName $poolName
