@@ -8,6 +8,10 @@ param
         [String]  
         $sqlServer,
 		
+		[parameter(Mandatory=$True)]  
+        [String]  
+        $poolName,
+		
 		[parameter(Mandatory=$True)] 
         [String] 
         $environmentName, 
@@ -38,7 +42,7 @@ $dbEnvironmentName = $environmentName -replace '\s',''
 $adminName = $adminFirstName + ' ' + $adminLastName
 
 #create database 
-.\CreateSQLDatabase.ps1 –SQLSERVER $sqlServer -Database $database
+.\CreateSQLDatabase.ps1 –SQLSERVER $sqlServer -Database $database -poolName $poolName
 .\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database.tostring() -FileName "Core.sql"
 
 #execute scripts to deploy db objects
