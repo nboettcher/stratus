@@ -28,7 +28,8 @@ if ($getUser.Value)
 $password = .\GenerateRandomPassword.ps1 -Length 10
 $fullName = $firstName + ' ' + $lastName
 $mailName = $firstName + $lastName
-
+$mailName = $mailName -replace '\s',''
+	
 $body = @{
     "accountEnabled"= "true";
     "alternativeSignInNamesInfo" = @(           
