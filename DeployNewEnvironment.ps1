@@ -45,6 +45,9 @@ $adminName = $adminFirstName + ' ' + $adminLastName
 .\CreateSQLDatabase.ps1 –SQLSERVER $sqlServer -Database $database -poolName $poolName
 .\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database.tostring() -FileName "Core.sql"
 
+#create fpadmin user
+[System.Management.Automation.PSCredential]$fpadminCredential = .\CreateFPAdminUser.ps1 -SQLSERVER $sqlServer -Database $database.tostring() -EnvironmentName $environmentName
+
 [bool]$businessProcess = $False
 
 #execute scripts to deploy db objects
@@ -75,9 +78,6 @@ if ($modules -contains 'Assure')
 }
 
 .\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database.tostring() -FileName "Cleanup.sql"
-	
-#create fpadmin user
-[System.Management.Automation.PSCredential]$fpadminCredential = .\CreateFPAdminUser.ps1 -SQLSERVER $sqlServer -Database $database.tostring() -EnvironmentName $environmentName
 
 #tenant table entry
 [guid]$tenantId = .\CreateTenantEntry.ps1 -SQLSERVER $sqlServer -Database $database.tostring() -EnvironmentName $environmentName -CustomerId $accountId -FPAdminCredential $fpadminCredential	
