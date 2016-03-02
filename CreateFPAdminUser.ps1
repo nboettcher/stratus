@@ -26,7 +26,7 @@ $connection.Open()
 $connection.Close()
 
 #run grant script
-.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName "GrantFPAdmin.sql" -fpadminUser $userName
+#.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName "GrantFPAdmin.sql" -fpadminUser $userName
 
 $password = $password | ConvertTo-SecureString -asPlainText -Force
 $cred = New-Object -TypeName System.Management.Automation.PSCredential($userName, $password)
