@@ -41,6 +41,9 @@ $dbEnvironmentName = $environmentName -replace '\s',''
 [string]$database = 'FPASSURE_' + $dbEnvironmentName
 $adminName = $adminFirstName + ' ' + $adminLastName
 
+$modulesArray = $modules.Split(';')
+$productsArray = $product.Split(';')
+
 #create database 
 .\CreateSQLDatabase.ps1 –SQLSERVER $sqlServer -Database $database -poolName $poolName
 .\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database.tostring() -FileName "Core.sql"
@@ -51,21 +54,21 @@ $adminName = $adminFirstName + ' ' + $adminLastName
 [bool]$businessProcess = $False
 
 #execute scripts to deploy db objects
-if ($modules -contains 'Assure')
+if ($modulesArray -contains 'AS')
 {
 	.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName "Assure.sql"
 		
-	if ($product -contains 'NS')
+	if ($productsArray -contains 'NS')
 	{
 		.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName "AssureNetSuite.sql"
 	}
 	
-	if ($product -contains 'INT')
+	if ($productsArray -contains 'INT')
 	{
 		.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName "AssureIntacct.sql"
 	}
 	
-	if ($product -contains 'OR')
+	if ($productsArray -contains 'OR')
 	{
 		.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName "AssureOracle.sql"
 		$businessProcess = $True
@@ -74,6 +77,26 @@ if ($modules -contains 'Assure')
 	if ($businessProcess -eq $True)
 	{
 		.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName "AssureBusinessProcess.sql"
+	}
+}
+
+if ($modulesArray -contains 'AT')
+{
+	.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName "AuditTrail.sql"
+		
+	if ($productsArray -contains 'NS')
+	{
+		.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName "AuditTrailNetSuite.sql"
+	}
+}
+
+if ($modulesArray -contains 'IM')
+{
+	.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName "IdentityManager.sql"
+		
+	if ($productsArray -contains 'NS')
+	{
+		.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName "IdentityManagerNetSuite.sql"
 	}
 }
 
