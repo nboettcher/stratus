@@ -63,6 +63,11 @@ if ($modulesArray -contains 'AS')
 		.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName "AssureNetSuite.sql"
 	}
 	
+	if ($productsArray -contains 'SF')
+	{
+		.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName "AssureSalesforce.sql"
+	}
+	
 	if ($productsArray -contains 'INT')
 	{
 		.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName "AssureIntacct.sql"
@@ -71,6 +76,18 @@ if ($modulesArray -contains 'AS')
 	if ($productsArray -contains 'OR')
 	{
 		.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName "AssureOracle.sql"
+		$businessProcess = $True
+	}
+	
+	if ($productsArray -contains 'AX')
+	{
+		.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName 'AssureAX7.sql'
+		$businessProcess = $True
+	}
+	
+	if ($productsArray -contains 'SAP')
+	{
+		.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName 'AssureSAP.sql'
 		$businessProcess = $True
 	}
 	
