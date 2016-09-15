@@ -131,4 +131,4 @@ if ($modulesArray -contains 'IM')
 #add admin user to AdmUsers and assign to Administrators group
 .\AddUserAsAdministrator.ps1 -SQLSERVER $sqlServer -Database $database.tostring() -UserId $userId -Email $adminEmailAddress -Name $adminName
 
-.\EmailEnvironmentSuccess.ps1 -toEmail $adminEmailAddress -name $adminName | Out-Null
+.\EmailEnvironmentSuccess.ps1 -toEmail $adminEmailAddress -environment $environmentName -name $adminName | Out-Null
