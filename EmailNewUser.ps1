@@ -9,15 +9,15 @@ Param(
    [string]$name
 )
 
-$sendGridCredential = Get-AutomationPSCredential -Name 'SendGridCredentials'
-$username = $sendGridCredential.UserName
-$password = $sendGridCredential.GetNetworkCredential().Password
+$password = Get-AutomationVariable -Name 'SendGridAPIKey'
+$url = Get-AutomationVariable -Name 'WebAppUrl'
 
-$text = "$name, You have been granted access to Fastpath Assure. Your credentials are as follows: User: $toEmail Password: $userPassword Access Fastpath Assure now!"
-$html = "$name ,<p />Welcome to Fastpath Assure. You have been granted access to Fastpath Assure. Your credentials are as follows:<p />User: $toEmail<br />Password: $userPassword<p />Access www.fastpathassure.com now!"
-$url = "https://api.sendgrid.com/api/mail.send.json"
-$contentType = "application/x-www-form-urlencoded; charset=UTF-8"
-$body = "api_user=" + $username + "&api_key=" + $password + "&to=" + $toEmail + "&subject=Welcome to Fastpath Assure&html=" + $html + "&from=noreply@fastpathassure.com"
+$body = '{ "personalizations" : [ { "to": [ { "email": "' + $toEmail + '"}],"subject": "Welcome to Fastpath Assure", "substitutions" : { "%name%": "' + $name + '", "%user%": "' + $toEmail + '", "%password%": "' + $userPassword + '", "%url%": "' + $url + '" } } ], "from": { "email": "noreply@gofastpath.com" }, "template_id": "07f3a703-eb92-4c8f-8385-5eb215469383"}'
 
-$resp = Invoke-RestMethod -Method Post -Uri $url -ContentType $contentType -Body $body
+
+$url = "https://api.sendgrid.com/v3/mail/send"
+$headers =  @{"Authorization"=("Bearer " + $password )}
+$contentType = "application/json"
+
+$resp = Invoke-RestMethod -Method Post -Uri $url -ContentType $contentType -Body $body -Headers $headers 
 Write-Output $resp
