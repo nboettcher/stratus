@@ -115,6 +115,16 @@ if ($modulesArray -contains 'IM')
 	{
 		.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName "IdentityManagerNetSuite.sql"
 	}
+
+	if ($productsArray -contains 'SAP')
+	{
+		.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName "IdentityManagerSAP.sql"
+	}
+
+	if ($productsArray -contains 'AX')
+	{
+		.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName "IdentityManagerAX7.sql"
+	}
 }
 
 .\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database.tostring() -FileName "Cleanup.sql"
