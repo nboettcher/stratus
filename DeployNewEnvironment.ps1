@@ -115,6 +115,16 @@ if ($modulesArray -contains 'IM')
 	{
 		.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName "IdentityManagerNetSuite.sql"
 	}
+
+	if ($productsArray -contains 'SAP')
+	{
+		.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName "IdentityManagerSAP.sql"
+	}
+
+	if ($productsArray -contains 'AX')
+	{
+		.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName "IdentityManagerAX7.sql"
+	}
 }
 
 .\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database.tostring() -FileName "Cleanup.sql"
@@ -131,4 +141,4 @@ if ($modulesArray -contains 'IM')
 #add admin user to AdmUsers and assign to Administrators group
 .\AddUserAsAdministrator.ps1 -SQLSERVER $sqlServer -Database $database.tostring() -UserId $userId -Email $adminEmailAddress -Name $adminName
 
-.\EmailEnvironmentSuccess.ps1 -toEmail $adminEmailAddress -name $adminName | Out-Null
+.\EmailEnvironmentSuccess.ps1 -toEmail $adminEmailAddress -environment $environmentName -name $adminName | Out-Null
