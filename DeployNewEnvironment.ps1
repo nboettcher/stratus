@@ -57,74 +57,88 @@ $productsArray = $product.Split(';')
 if ($modulesArray -contains 'AS')
 {
 	.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName "Assure.sql"
-		
+	.\AddTargetGroupMember.ps1 -SQLSERVER $sqlServer -Database $database -TargetGroup "Assure"
+
 	if ($productsArray -contains 'NS')
 	{
 		.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName "AssureNetSuite.sql"
+	    .\AddTargetGroupMember.ps1 -SQLSERVER $sqlServer -Database $database -TargetGroup "AssureNetSuite"        
 	}
 	
 	if ($productsArray -contains 'SF')
 	{
 		.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName "AssureSalesforce.sql"
+	    .\AddTargetGroupMember.ps1 -SQLSERVER $sqlServer -Database $database -TargetGroup "AssureSalesforce"    
 	}
 	
 	if ($productsArray -contains 'INT')
 	{
 		.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName "AssureIntacct.sql"
+	    .\AddTargetGroupMember.ps1 -SQLSERVER $sqlServer -Database $database -TargetGroup "AssureIntacct"        
 	}
 	
 	if ($productsArray -contains 'OR')
 	{
 		.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName "AssureOracle.sql"
+    	.\AddTargetGroupMember.ps1 -SQLSERVER $sqlServer -Database $database -TargetGroup "AssureOracle"    
 		$businessProcess = $True
 	}
 	
 	if ($productsArray -contains 'AX')
 	{
 		.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName 'AssureAX7.sql'
+	    .\AddTargetGroupMember.ps1 -SQLSERVER $sqlServer -Database $database -TargetGroup "AssureAX7"        
 		$businessProcess = $True
 	}
 	
 	if ($productsArray -contains 'SAP')
 	{
 		.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName 'AssureSAP.sql'
+	    .\AddTargetGroupMember.ps1 -SQLSERVER $sqlServer -Database $database -TargetGroup "AssureSAP"        
 		$businessProcess = $True
 	}
 	
 	if ($businessProcess -eq $True)
 	{
 		.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName "AssureBusinessProcess.sql"
+	    .\AddTargetGroupMember.ps1 -SQLSERVER $sqlServer -Database $database -TargetGroup "AssureBusinessProcesses"        
 	}
 }
 
 if ($modulesArray -contains 'AT')
 {
 	.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName "AuditTrail.sql"
+	.\AddTargetGroupMember.ps1 -SQLSERVER $sqlServer -Database $database -TargetGroup "AuditTrail"    
 		
 	if ($productsArray -contains 'NS')
 	{
 		.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName "AuditTrailNetSuite.sql"
+	    .\AddTargetGroupMember.ps1 -SQLSERVER $sqlServer -Database $database -TargetGroup "AuditTrailNetSuite"        
 	}
 }
 
 if ($modulesArray -contains 'IM')
 {
 	.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName "IdentityManager.sql"
+	.\AddTargetGroupMember.ps1 -SQLSERVER $sqlServer -Database $database -TargetGroup "IdentityManager"
 		
 	if ($productsArray -contains 'NS')
 	{
 		.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName "IdentityManagerNetSuite.sql"
+    	.\AddTargetGroupMember.ps1 -SQLSERVER $sqlServer -Database $database -TargetGroup "IdentityManagerNetSuite"
 	}
 
 	if ($productsArray -contains 'SAP')
 	{
 		.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName "IdentityManagerSAP.sql"
+    	.\AddTargetGroupMember.ps1 -SQLSERVER $sqlServer -Database $database -TargetGroup "IdentityManagerSAP"        
 	}
 
 	if ($productsArray -contains 'AX')
 	{
 		.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName "IdentityManagerAX7.sql"
-	}
+    	.\AddTargetGroupMember.ps1 -SQLSERVER $sqlServer -Database $database -TargetGroup "IdentityManagerAX7"        
+    }
 }
 
 .\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database.tostring() -FileName "Cleanup.sql"
