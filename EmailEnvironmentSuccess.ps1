@@ -12,8 +12,9 @@ Param(
 
 $password = Get-AutomationVariable -Name 'SendGridAPIKey'
 $url = Get-AutomationVariable -Name 'WebAppUrl'
+$template = Get-AutomationVariable -Name 'NewEnvironmentTemplate'
 
-$body = '{ "personalizations" : [ { "to": [ { "email": "' + $toEmail + '"}],"subject": "Your new Fastpath Assure environment is ready", "substitutions" : { "%name%": "' + $name + '", "%environment%": "' + $environment + '", "%url%": "' + $url + '" } } ], "from": { "email": "noreply@gofastpath.com" }, "template_id": "cc9ae13b-a92d-4f27-bc31-5b83f5e476d7"}'
+$body = '{ "personalizations" : [ { "to": [ { "email": "' + $toEmail + '"}],"subject": "Your new Fastpath Assure environment is ready", "substitutions" : { "%name%": "' + $name + '", "%environment%": "' + $environment + '", "%url%": "' + $url + '" } } ], "from": { "email": "noreply@gofastpath.com" }, "template_id": "' + $template + '"}'
 
 
 $url = "https://api.sendgrid.com/v3/mail/send"
