@@ -106,12 +106,12 @@ if ($modulesArray -contains 'AS')
 }
 
 if ($modulesArray -contains 'AT')
-{		
+{	
+	.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName 'AuditTrail.sql'
+	.\AddTargetGroupMember.ps1 -SQLSERVER $sqlServer -Database $database -TargetGroup 'AuditTrail'
+
 	if ($productsArray -contains 'NS')
 	{
-        .\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName 'AuditTrail.sql'
-	    .\AddTargetGroupMember.ps1 -SQLSERVER $sqlServer -Database $database -TargetGroup 'AuditTrail'
-
 		.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName 'AuditTrailNetSuite.sql'
 	    .\AddTargetGroupMember.ps1 -SQLSERVER $sqlServer -Database $database -TargetGroup 'AuditTrailNetSuite'
 	}
