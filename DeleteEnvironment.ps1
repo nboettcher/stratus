@@ -31,7 +31,7 @@ $adminCredential = Get-AutomationPSCredential -Name 'AutomationServiceAccount'
 $login = Login-AzureRmAccount -Credential $adminCredential
 $account = Add-AzureRmAccount -SubscriptionId $AzureSubscriptionId  -Credential $adminCredential
 
-#Select-AzureSubscription -SubscriptionId $AzureSubscriptionId
+Set-AzureRmContext -SubscriptionId $AzureSubscriptionId
 
 #delete azure scheduler items
 Get-AzureRmSchedulerJobCollection | Where-Object {$_.JobCollectionName.Contains($tenantId) } | Remove-AzureRmSchedulerJobCollection
@@ -60,6 +60,8 @@ while ($reader.Read()){
     $sqlServer = $reader.GetValue(1)
 }
 $connection.Close()
+
+$sqlServer = $sqlServer -replace '.database.windows.net', ''
 
 #delete usertenantmapping
 $connectionString = "Data Source=" + $adminSqlServer + ";Initial Catalog=" + $adminDatabase + ";User ID=" + $adminUserId + ";Password=" + $adminPassword + ";Connection Timeout=90"
@@ -100,4 +102,4 @@ while ($reader.Read()){
 $connection.Close()
 
 #delete database
-Remove-AzureRmSqlDatabase -ResourceGroupName $resourceGroup -ServerName $sqlServer -DatabaseName $database -ErrorAction SilentlyContinue -Force
+Remove-AzureRmSqlDatabase -ResourceGroupName $resourceGroup -ServerName $sqlServer -DatabaseName $database -Force

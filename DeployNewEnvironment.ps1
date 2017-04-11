@@ -106,10 +106,10 @@ if ($modulesArray -contains 'AS')
 }
 
 if ($modulesArray -contains 'AT')
-{
+{	
 	.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName 'AuditTrail.sql'
 	.\AddTargetGroupMember.ps1 -SQLSERVER $sqlServer -Database $database -TargetGroup 'AuditTrail'
-		
+
 	if ($productsArray -contains 'NS')
 	{
 		.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName 'AuditTrailNetSuite.sql'
@@ -120,7 +120,18 @@ if ($modulesArray -contains 'AT')
 	{
 		.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName 'AuditTrailAX7.sql'
 	    .\AddTargetGroupMember.ps1 -SQLSERVER $sqlServer -Database $database -TargetGroup 'AuditTrailAX7'
-		$businessProcess = $True
+	}
+
+	if ($productsArray -contains 'OR')
+	{
+		.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName 'AuditTrailOracle.sql'
+	    .\AddTargetGroupMember.ps1 -SQLSERVER $sqlServer -Database $database -TargetGroup 'AuditTrailOracle'
+	}
+
+	if ($productsArray -contains 'SAP')
+	{
+		.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName 'AuditTrailSAP.sql'
+	    .\AddTargetGroupMember.ps1 -SQLSERVER $sqlServer -Database $database -TargetGroup 'AuditTrailSAP'
 	}
 }
 
@@ -146,6 +157,12 @@ if ($modulesArray -contains 'IM')
 		.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName 'IdentityManagerAX7.sql'
     	.\AddTargetGroupMember.ps1 -SQLSERVER $sqlServer -Database $database -TargetGroup 'IdentityManagerAX7'
     }
+
+	if ($productsArray -contains 'OR')
+	{
+		.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName 'IdentityManagerOracle.sql'
+    	.\AddTargetGroupMember.ps1 -SQLSERVER $sqlServer -Database $database -TargetGroup 'IdentityManagerOracle'
+    }
 }
 
 .\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database.tostring() -FileName 'Cleanup.sql'
@@ -161,6 +178,13 @@ if ($modulesArray -contains 'IM')
 
 #add admin user to AdmUsers and assign to Administrators group
 .\AddUserAsAdministrator.ps1 -SQLSERVER $sqlServer -Database $database.tostring() -UserId $userId -Email $adminEmailAddress -Name $adminName
+
+$azureSubscription =  Get-AutomationVariable -Name 'AzureSubscription'
+
+if ($azureSubscription -eq 'Fastpath-Stratus-Development')
+{
+    .\AddFastpathDEVS.ps1 -tenantId $tenantId
+}
 
 .\EmailEnvironmentSuccess.ps1 -toEmail $adminEmailAddress -environment $environmentName -name $adminName | Out-Null
 
