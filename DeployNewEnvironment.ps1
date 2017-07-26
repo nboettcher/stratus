@@ -84,7 +84,7 @@ if ($modulesArray -contains 'AS')
 		$businessProcess = $True
 	}
 	
-	if ($productsArray -contains 'AX')
+	if ($productsArray -contains 'AX7')
 	{
 		.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName 'AssureAX7.sql'
 	    .\AddTargetGroupMember.ps1 -SQLSERVER $sqlServer -Database $database -TargetGroup 'AssureAX7'
@@ -95,6 +95,26 @@ if ($modulesArray -contains 'AS')
 	{
 		.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName 'AssureSAP.sql'
 	    .\AddTargetGroupMember.ps1 -SQLSERVER $sqlServer -Database $database -TargetGroup 'AssureSAP'
+		$businessProcess = $True
+	}
+
+    if ($productsArray -contains 'NAV')
+	{
+		.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName 'AssureNAV.sql'
+	    .\AddTargetGroupMember.ps1 -SQLSERVER $sqlServer -Database $database -TargetGroup 'AssureNAV'
+	}
+
+    if ($productsArray -contains 'GP')
+	{
+		.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName 'AssureGP.sql'
+	    .\AddTargetGroupMember.ps1 -SQLSERVER $sqlServer -Database $database -TargetGroup 'AssureGP'
+		$businessProcess = $True
+	}
+
+    	if ($productsArray -contains 'AX')
+	{
+		.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName 'AssureAX.sql'
+	    .\AddTargetGroupMember.ps1 -SQLSERVER $sqlServer -Database $database -TargetGroup 'AssureAX'
 		$businessProcess = $True
 	}
 	
@@ -116,7 +136,7 @@ if ($modulesArray -contains 'AT')
 	    .\AddTargetGroupMember.ps1 -SQLSERVER $sqlServer -Database $database -TargetGroup 'AuditTrailNetSuite'
 	}
 
-    if ($productsArray -contains 'AX')
+    if ($productsArray -contains 'AX7')
 	{
 		.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName 'AuditTrailAX7.sql'
 	    .\AddTargetGroupMember.ps1 -SQLSERVER $sqlServer -Database $database -TargetGroup 'AuditTrailAX7'
@@ -132,6 +152,24 @@ if ($modulesArray -contains 'AT')
 	{
 		.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName 'AuditTrailSAP.sql'
 	    .\AddTargetGroupMember.ps1 -SQLSERVER $sqlServer -Database $database -TargetGroup 'AuditTrailSAP'
+	}
+
+    if ($productsArray -contains 'NAV')
+	{
+		.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName 'AuditTrailNAV.sql'
+	    .\AddTargetGroupMember.ps1 -SQLSERVER $sqlServer -Database $database -TargetGroup 'AuditTrailNAV'
+	}
+
+    if ($productsArray -contains 'GP')
+	{
+		.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName 'AuditTrailGP.sql'
+	    .\AddTargetGroupMember.ps1 -SQLSERVER $sqlServer -Database $database -TargetGroup 'AuditTrailGP'
+	}
+
+    if ($productsArray -contains 'AX')
+	{
+		.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName 'AuditTrailAX.sql'
+	    .\AddTargetGroupMember.ps1 -SQLSERVER $sqlServer -Database $database -TargetGroup 'AuditTrailAX'
 	}
 }
 
@@ -152,7 +190,7 @@ if ($modulesArray -contains 'IM')
     	.\AddTargetGroupMember.ps1 -SQLSERVER $sqlServer -Database $database -TargetGroup 'IdentityManagerSAP'
 	}
 
-	if ($productsArray -contains 'AX')
+	if ($productsArray -contains 'AX7')
 	{
 		.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName 'IdentityManagerAX7.sql'
     	.\AddTargetGroupMember.ps1 -SQLSERVER $sqlServer -Database $database -TargetGroup 'IdentityManagerAX7'
@@ -162,6 +200,24 @@ if ($modulesArray -contains 'IM')
 	{
 		.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName 'IdentityManagerOracle.sql'
     	.\AddTargetGroupMember.ps1 -SQLSERVER $sqlServer -Database $database -TargetGroup 'IdentityManagerOracle'
+    }
+
+    if ($productsArray -contains 'NAV')
+	{
+		.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName 'IdentityManagerNAV.sql'
+    	.\AddTargetGroupMember.ps1 -SQLSERVER $sqlServer -Database $database -TargetGroup 'IdentityManagerNAV'
+    }
+
+    if ($productsArray -contains 'GP')
+	{
+		.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName 'IdentityManagerGP.sql'
+    	.\AddTargetGroupMember.ps1 -SQLSERVER $sqlServer -Database $database -TargetGroup 'IdentityManagerGP'
+    }
+
+    if ($productsArray -contains 'AX')
+	{
+		.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName 'IdentityManagerAX.sql'
+    	.\AddTargetGroupMember.ps1 -SQLSERVER $sqlServer -Database $database -TargetGroup 'IdentityManagerAX'
     }
 }
 
