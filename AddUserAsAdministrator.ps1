@@ -24,7 +24,7 @@ param(
 $sqlServer = $sqlServer + '.database.windows.net'
 $invited = "0";
 
-IF([string]::IsNullOrEmpty($userId))
+IF($userId.toString() -eq [system.guid]::empty)
 {
     $userId = [guid]::NewGuid()
     $invited = "1"
