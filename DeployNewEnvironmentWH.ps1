@@ -20,6 +20,6 @@ if ($WebhookData -ne $null) {
             $EnvName = $env.environmentName
             Write-Output "Deploying $EnvName"
 				
-			[guid]$tenantId = .\DeployNewEnvironment.ps1 -accountId $env.accountId -sqlServer $env.sqlServer -poolName $env.poolName -environmentName $env.environmentName -product $env.product -modules $env.modules -adminEmailAddress $env.adminEmailAddress -adminFirstName $env.adminFirstName -adminLastName $env.adminLastName
+			[guid]$tenantId = .\DeployNewEnvironment.ps1 -accountId $env.accountId -sqlServer $env.sqlServer -poolName $env.poolName -environmentName $env.environmentName -product $env.product -modules $env.modules -adminEmailAddress $env.adminEmailAddress -adminFirstName $env.adminFirstName -adminLastName $env.adminLastName -idp $env.idp -idpUserId $env.idpUserId
         }
     }
