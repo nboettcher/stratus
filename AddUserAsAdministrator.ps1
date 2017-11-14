@@ -12,15 +12,28 @@ param(
    [string]$email,
    
    [Parameter(Mandatory=$True)]
-   [string]$name
+   [string]$name,
+
+   [Parameter(Mandatory=$True)]
+   [string]$idp,
+
+   [Parameter(Mandatory=$True)]
+   [string]$idpUserId
 )
 
 $sqlServer = $sqlServer + '.database.windows.net'
+$invited = "0";
+
+IF([string]::IsNullOrEmpty($userId))
+{
+    $userId = [guid]::NewGuid()
+    $invited = "1"
+}
 
 $sqlCredential = Get-AutomationPSCredential -Name 'SQLCredentials'
 $connectionString = "Data Source=" + $sqlServer + ";Initial Catalog=" + $database + ";User ID=" + $sqlCredential.UserName + ";Password=" + $sqlCredential.GetNetworkCredential().Password + ";Connection Timeout=90"
 $connection = New-Object -TypeName System.Data.SqlClient.SqlConnection($connectionString)
-$query = "INSERT INTO AdmUsers (UserID, UserLogonName, Domain, Email, Active) VALUES ('" + $userId + "', '" + $name + "', 'fpstratus.onmicrosoft.com', '" + $email + "', 1)"
+$query = "INSERT INTO AdmUsers (UserID, UserLogonName, Domain, Email, Active, Invited, IdentityUserID) VALUES ('" + $userId + "', '" + $name + "', '" + $idp + "', '" + $email + "', 1, " + $invited + ", '" + $idpUserId + "')"
 $command = New-Object -TypeName System.Data.SqlClient.SqlCommand($query, $connection)
 $connection.Open()
 [void]$command.ExecuteNonQuery()
