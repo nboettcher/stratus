@@ -34,7 +34,7 @@ $account = Add-AzureRmAccount -SubscriptionId $AzureSubscriptionId  -Credential 
 Set-AzureRmContext -SubscriptionId $AzureSubscriptionId
 
 #delete azure scheduler items
-Get-AzureRmSchedulerJobCollection | Where-Object {$_.JobCollectionName.Contains($tenantId) } | Remove-AzureRmSchedulerJobCollection
+Get-AzureRmSchedulerJobCollection | Where-Object {$_.JobCollectionName -contains "*$tenantId*" } | Remove-AzureRmSchedulerJobCollection
 
 #Define the storage account and context.
 $StorageAccountName = Get-AutomationVariable -Name 'StorageAccountName'
