@@ -34,7 +34,15 @@ param
  
         [parameter(Mandatory=$True)] 
         [String] 
-        $adminLastName
+        $adminLastName,
+
+        [parameter(Mandatory=$True)] 
+        [String] 
+        $idp,
+
+		[parameter(Mandatory=$True)] 
+        [String] 
+        $idpUserId
     ) 
 
 $dbEnvironmentName = $environmentName -replace '\s',''
@@ -111,11 +119,37 @@ if ($modulesArray -contains 'AS')
 		$businessProcess = $True
 	}
 
-    	if ($productsArray -contains 'AX')
+    if ($productsArray -contains 'AX')
 	{
 		.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName 'AssureAX.sql'
 	    .\AddTargetGroupMember.ps1 -SQLSERVER $sqlServer -Database $database -TargetGroup 'AssureAX'
 		$businessProcess = $True
+	}
+
+    if ($productsArray -contains 'AC')
+	{
+		.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName 'AssureAcumatica.sql'
+	    .\AddTargetGroupMember.ps1 -SQLSERVER $sqlServer -Database $database -TargetGroup 'AssureAcumatica'
+	}
+
+    if ($productsArray -contains 'SAPB1')
+	{
+		.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName 'AssureSAPB1.sql'
+	    .\AddTargetGroupMember.ps1 -SQLSERVER $sqlServer -Database $database -TargetGroup 'AssureSAPB1'
+	}
+
+    if ($productsArray -contains 'PS')
+	{
+		.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName 'AssurePeoplesoft.sql'
+	    .\AddTargetGroupMember.ps1 -SQLSERVER $sqlServer -Database $database -TargetGroup 'AssurePeoplesoft'
+		$businessProcess = $True        
+	}
+
+    if ($productsArray -contains 'ORCF')
+	{
+		.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName 'AssureOracleCF.sql'
+	    .\AddTargetGroupMember.ps1 -SQLSERVER $sqlServer -Database $database -TargetGroup 'AssureOracleCF'
+		$businessProcess = $True        
 	}
 	
 	if ($businessProcess -eq $True)
@@ -221,23 +255,35 @@ if ($modulesArray -contains 'IM')
     }
 }
 
+if ($modulesArray -contains 'SD')
+{
+	.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName 'SecurityDesigner.sql'
+	.\AddTargetGroupMember.ps1 -SQLSERVER $sqlServer -Database $database -TargetGroup 'SecurityDesigner'
+
+    if ($productsArray -contains 'AX7')
+	{
+		.\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName 'SecurityDesignerAX7.sql'
+    	.\AddTargetGroupMember.ps1 -SQLSERVER $sqlServer -Database $database -TargetGroup 'SecurityDesignerAX7'
+    }
+}
+
 .\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database.tostring() -FileName 'Cleanup.sql'
 
 #tenant table entry
 [guid]$tenantId = .\CreateTenantEntry.ps1 -SQLSERVER $sqlServer -Database $database.tostring() -EnvironmentName $environmentName -CustomerId $accountId -FPAdminCredential $fpadminCredential	
 
 #create admin user in AAD 
-[guid]$userId = .\CreateAADUser.ps1 -firstName $adminFirstName -lastName $adminLastName -email $adminEmailAddress
+[guid]$userId = .\CreateAADUser.ps1 -firstName $adminFirstName -lastName $adminLastName -email $adminEmailAddress -idp $idp -idpUserId $idpUserId
 
 #add admin user to user tenant mapping
-.\CreateUserTenantMappingEntry.ps1 -TenantId $tenantId -UserId $userId	
+.\CreateUserTenantMappingEntry.ps1 -TenantId $tenantId -UserId $userId	-idp $idp -email $adminEmailAddress -idpUserId $idpUserId
 
 #add admin user to AdmUsers and assign to Administrators group
-.\AddUserAsAdministrator.ps1 -SQLSERVER $sqlServer -Database $database.tostring() -UserId $userId -Email $adminEmailAddress -Name $adminName
+.\AddUserAsAdministrator.ps1 -SQLSERVER $sqlServer -Database $database.tostring() -UserId $userId -Email $adminEmailAddress -Name $adminName -idp $idp -idpUserId $idpUserId
 
 $azureSubscription =  Get-AutomationVariable -Name 'AzureSubscription'
 
-if ($azureSubscription -eq 'Fastpath-Stratus-Development')
+if ($azureSubscription -eq 'Fastpath-Stratus-Development' -or $azureSubscription -eq 'Fastpath-Stratus-Test')
 {
     .\AddFastpathDEVS.ps1 -tenantId $tenantId
 }
