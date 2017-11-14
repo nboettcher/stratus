@@ -23,7 +23,7 @@ $sqlCredential = Get-AutomationPSCredential -Name 'SQLCredentials'
 $connectionString = "Data Source=" + $sqlServer + ";Initial Catalog=" + $database + ";User ID=" + $sqlCredential.UserName + ";Password=" + $sqlCredential.GetNetworkCredential().Password + ";Connection Timeout=90"
 $connection = New-Object -TypeName System.Data.SqlClient.SqlConnection($connectionString)
 
-IF([string]::IsNullOrEmpty($userId))
+IF($userId.toString() -eq [system.guid]::empty)
 {
     $id = [guid]::NewGuid()
     $query = "INSERT INTO InvitedUsers (Id, IdentityProvider, IdentityUserId, TenantId) VALUES ('" + $id + "', '" + $idp + "', '" + $idpUserId + "', '" + $tenantId + "')"
