@@ -30,6 +30,8 @@ IF($userId.toString() -eq [system.guid]::empty)
     $invited = "1"
 }
 
+$name = $name -replace "'", "''"
+
 $sqlCredential = Get-AutomationPSCredential -Name 'SQLCredentials'
 $connectionString = "Data Source=" + $sqlServer + ";Initial Catalog=" + $database + ";User ID=" + $sqlCredential.UserName + ";Password=" + $sqlCredential.GetNetworkCredential().Password + ";Connection Timeout=90"
 $connection = New-Object -TypeName System.Data.SqlClient.SqlConnection($connectionString)
@@ -40,6 +42,15 @@ $connection.Open()
 $connection.Close()
 
 $query = "INSERT INTO AdmUserGroup (UserID, GroupID) VALUES ('" + $userId + "', (SELECT GroupID FROM AdmGroups WHERE Name = 'Administrators'))"
+$command = New-Object -TypeName System.Data.SqlClient.SqlCommand($query, $connection)
+$connection.Open()
+[void]$command.ExecuteNonQuery()
+$connection.Close()
+
+$atInd = $email.IndexOf('@')
+$domain = $email.Substring($atInd + 1, $email.Length - $atInd -1)
+
+$query = "UPDATE FpConfiguration SET [Value] = '" + $domain + "' WHERE [Name] = 'UserDomainWhitelist'"
 $command = New-Object -TypeName System.Data.SqlClient.SqlCommand($query, $connection)
 $connection.Open()
 [void]$command.ExecuteNonQuery()
