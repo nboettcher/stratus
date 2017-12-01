@@ -71,5 +71,5 @@ if ($idp -eq 'Local')
 }
 else
 {
-    return '';
+    return [system.guid]::empty;
 }

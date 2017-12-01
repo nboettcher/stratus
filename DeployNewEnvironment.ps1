@@ -285,7 +285,7 @@ $azureSubscription =  Get-AutomationVariable -Name 'AzureSubscription'
 
 if ($azureSubscription -eq 'Fastpath-Stratus-Development' -or $azureSubscription -eq 'Fastpath-Stratus-Test')
 {
-    .\AddFastpathDEVS.ps1 -tenantId $tenantId
+    #.\AddFastpathDEVS.ps1 -tenantId $tenantId
 }
 
 .\EmailEnvironmentSuccess.ps1 -toEmail $adminEmailAddress -environment $environmentName -name $adminName | Out-Null
