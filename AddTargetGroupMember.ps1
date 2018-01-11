@@ -15,7 +15,7 @@ $sqlCredential = Get-AutomationPSCredential -Name 'SQLCredentials'
 $adminSqlServer = Get-AutomationVariable -Name 'SqlServerName'
 $adminDatabase = Get-AutomationVariable -Name 'SqlServerDatabase'
 
-$connectionString = "Data Source=" + $adminSqlServer + ";Initial Catalog=ElasticJobs;User ID=" + $sqlCredential.UserName + ";Password=" + $sqlCredential.GetNetworkCredential().Password + ";Connection Timeout=90;ConnectRetryCount=3;ConnectRetryInterval=10;"
+$connectionString = "Data Source=" + $adminSqlServer + ";Initial Catalog=ElasticJobs;User ID=" + $sqlCredential.UserName + ";Password=" + $sqlCredential.GetNetworkCredential().Password + ";Connection Timeout=90;"
 $connection = New-Object -TypeName System.Data.SqlClient.SqlConnection($connectionString)
 $query = "IF NOT EXISTS(SELECT * FROM jobs.target_group_members where target_type = 'SqlDatabase' and [database_name] = '" + $database + "' and target_group_name = '" + $targetGroup + "') EXEC jobs.sp_add_target_group_member @target_group_name = '" + $targetGroup + "', @target_type = 'SqlDatabase', @database_name = '" + $database + "', @server_name = '" + $sqlServer + "'"
 $command = New-Object -TypeName System.Data.SqlClient.SqlCommand($query, $connection)
