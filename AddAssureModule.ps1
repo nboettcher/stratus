@@ -95,7 +95,7 @@ if ($productsArray -contains 'PS')
     $businessProcess = $True        
 }
 
-if ($productsArray -contains 'ORCF')
+if ($productsArray -contains 'ORFC')
 {
     .\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName 'AssureOracleFC.sql'
     .\AddTargetGroupMember.ps1 -SQLSERVER $sqlServer -Database $database -TargetGroup 'AssureOracleFC'
