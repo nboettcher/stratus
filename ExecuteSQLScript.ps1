@@ -30,7 +30,7 @@ if ($fpadminUser)
 }
 
 $sqlCredential = Get-AutomationPSCredential -Name 'SQLCredentials'
-$connectionString = "Data Source=" + $sqlServer + ";Initial Catalog=" + $database + ";User ID=" + $sqlCredential.UserName + ";Password=" + $sqlCredential.GetNetworkCredential().Password + ";Connection Timeout=90;ConnectRetryCount=3;ConnectRetryInterval=10;"
+$connectionString = "Data Source=" + $sqlServer + ";Initial Catalog=" + $database + ";User ID=" + $sqlCredential.UserName + ";Password=" + $sqlCredential.GetNetworkCredential().Password + ";Connection Timeout=90;"
 $connection = New-Object -TypeName System.Data.SqlClient.SqlConnection($connectionString)
 $query = $createDatabase
 $command = New-Object -TypeName System.Data.SqlClient.SqlCommand($query, $connection)
