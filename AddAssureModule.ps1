@@ -55,54 +55,68 @@ if ($productsArray -contains 'OR')
 {
     .\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName 'AssureOracle.sql'
     .\AddTargetGroupMember.ps1 -SQLSERVER $sqlServer -Database $database -TargetGroup 'AssureOracle'
+    $businessProcess = $True    
 }
 
 if ($productsArray -contains 'AX7')
 {
     .\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName 'AssureAX7.sql'
     .\AddTargetGroupMember.ps1 -SQLSERVER $sqlServer -Database $database -TargetGroup 'AssureAX7'
+    $businessProcess = $True
 }
 
 if ($productsArray -contains 'SAP')
 {
     .\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName 'AssureSAP.sql'
     .\AddTargetGroupMember.ps1 -SQLSERVER $sqlServer -Database $database -TargetGroup 'AssureSAP'
+    $businessProcess = $True    
 }
 
 if ($productsArray -contains 'GP')
 {
     .\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName 'AssureGP.sql'
     .\AddTargetGroupMember.ps1 -SQLSERVER $sqlServer -Database $database -TargetGroup 'AssureGP'
+    $businessProcess = $True
 }
 
 if ($productsArray -contains 'AX')
 {
     .\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName 'AssureAX.sql'
     .\AddTargetGroupMember.ps1 -SQLSERVER $sqlServer -Database $database -TargetGroup 'AssureAX'
+    $businessProcess = $True
 }
 
 if ($productsArray -contains 'AC')
 {
     .\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName 'AssureAcumatica.sql'
     .\AddTargetGroupMember.ps1 -SQLSERVER $sqlServer -Database $database -TargetGroup 'AssureAcumatica'
+    $businessProcess = $True    
 }
 
 if ($productsArray -contains 'PS')
 {
     .\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName 'AssurePeoplesoft.sql'
     .\AddTargetGroupMember.ps1 -SQLSERVER $sqlServer -Database $database -TargetGroup 'AssurePeoplesoft'
+    $businessProcess = $True    
 }
 
 if ($productsArray -contains 'ORFC')
 {
     .\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName 'AssureOracleFC.sql'
     .\AddTargetGroupMember.ps1 -SQLSERVER $sqlServer -Database $database -TargetGroup 'AssureOracleFC'
+    $businessProcess = $True    
 }
 
 if ($productsArray -contains 'JDE')
 {
     .\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName 'AssureJDEdwards.sql'
     .\AddTargetGroupMember.ps1 -SQLSERVER $sqlServer -Database $database -TargetGroup 'AssureJDEdwards'
+    $businessProcess = $True    
+}
+
+if ($productsArray -contains 'CUSTOM')
+{
+    $businessProcess = $True    
 }
 
 if ($businessProcess -eq $True)
