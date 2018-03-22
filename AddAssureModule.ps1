@@ -48,7 +48,7 @@ if ($productsArray -contains 'SAPB1')
 {
     .\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName 'AssureSAPB1.sql'
     .\AddTargetGroupMember.ps1 -SQLSERVER $sqlServer -Database $database -TargetGroup 'AssureSAPB1'
-    $businessProcess = $False    
+    $businessProcess = $True    
 }
 
 if ($productsArray -contains 'OR')
@@ -111,6 +111,20 @@ if ($productsArray -contains 'JDE')
 {
     .\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName 'AssureJDEdwards.sql'
     .\AddTargetGroupMember.ps1 -SQLSERVER $sqlServer -Database $database -TargetGroup 'AssureJDEdwards'
+    $businessProcess = $True    
+}
+
+if ($productsArray -contains 'SL')
+{
+    .\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName 'AssureSL.sql'
+    .\AddTargetGroupMember.ps1 -SQLSERVER $sqlServer -Database $database -TargetGroup 'AssureSL'
+    $businessProcess = $True    
+}
+
+if ($productsArray -contains 'AX5')
+{
+    .\ExecuteSQLScript.ps1 -SQLSERVER $sqlServer -Database $database -FileName 'AssureAX5.sql'
+    .\AddTargetGroupMember.ps1 -SQLSERVER $sqlServer -Database $database -TargetGroup 'AssureAX5'
     $businessProcess = $True    
 }
 
