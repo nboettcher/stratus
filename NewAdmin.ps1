@@ -1,29 +1,44 @@
 param 
     ( 
-        [parameter(Mandatory=$True)]  
+        [parameter(Mandatory=$false)]  
         [String]  
         $tenantId,  
 
-        [parameter(Mandatory=$True)] 
+        [parameter(Mandatory=$false)] 
         [String] 
         $adminEmailAddress, 
  
-        [parameter(Mandatory=$True)] 
+        [parameter(Mandatory=$false)] 
         [String] 
         $adminFirstName, 
  
-        [parameter(Mandatory=$True)] 
+        [parameter(Mandatory=$false)] 
         [String] 
         $adminLastName,
 
-        [parameter(Mandatory=$True)] 
+        [parameter(Mandatory=$false)] 
         [String] 
         $idp,
 
-        [parameter(Mandatory=$True)] 
+        [parameter(Mandatory=$false)] 
         [String] 
-        $idpUserId
+        $idpUserId,
+
+        [Parameter (Mandatory= $false)]    
+        [object] $WebhookData
     ) 
+
+
+if ($WebhookData -ne $null) {   
+        $WebhookBody = $WebhookData.RequestBody
+        $Input = ConvertFrom-Json -InputObject $WebhookBody
+        $tenantId = $Input.tenantId
+        $adminEmailAddress = $Input.adminEmailAddress
+        $adminFirstName = $Input.adminFirstName
+        $adminLastName = $Input.adminLastName
+        $idp = $Input.idp
+        $idpUserId = $Input.idpUserId
+}
 
 $adminName = $adminFirstName + ' ' + $adminLastName
 
